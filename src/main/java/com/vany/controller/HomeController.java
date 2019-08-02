@@ -10,14 +10,14 @@ public class HomeController {
 	
 	@RequestMapping(value="/")
     public String viewHome() {
-		String username;
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (principal instanceof UserDetails) {
-		  username = ((UserDetails)principal).getUsername();
-		} else {
-		  username = principal.toString();
-		}
-		System.out.println("User name : "+ username);
+//		String username;
+//		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		if (principal instanceof UserDetails) {
+//		  username = ((UserDetails)principal).getUsername();
+//		} else {
+//		  username = principal.toString();
+//		}
+//		System.out.println("User name : "+ username);
         return "<h1>Yes... Running...</h1>";
     }
 }

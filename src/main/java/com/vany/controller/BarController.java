@@ -21,6 +21,7 @@ import com.vany.model.Bar;
 import com.vany.model.DAOUser;
 import com.vany.repositeroy.BarRepo;
 import com.vany.repositeroy.UserDao;
+import com.vany.services.UserService;
 
 @RestController
 @RequestMapping("/api")
@@ -32,10 +33,14 @@ public class BarController {
 	
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	UserService userService;
 
 	// Get All Item
 	@GetMapping(value = "/bar")
 	public List<Bar> getAllItem() {
+		userService.getUserId();
 		return barRepo.findAll();
 	}
 
@@ -47,8 +52,8 @@ public class BarController {
 
 	// Save Item
 	@PostMapping(value = "/bar/save")
-	public Bar saveItem(@RequestBody Bar bar) {
-//		bar.setDaoUser(getUser());
+	public Bar saveItem(@RequestBody Bar bar) {		
+//		bar.setDaoUser(userService.getUserId());
 		return barRepo.saveAndFlush(bar);
 	}
 
@@ -56,8 +61,7 @@ public class BarController {
 	@PutMapping("/bar/{id}")
 	public Bar updateItem(@PathVariable Integer id, @RequestBody Bar bar) {
 
-		Bar findBar = barRepo.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Bar Controller ", "id", id));
+		Bar findBar = barRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Bar Controller ", "id", id));
 
 		findBar.setItemName(bar.getItemName());
 		findBar.setItemPrice(bar.getItemPrice());
