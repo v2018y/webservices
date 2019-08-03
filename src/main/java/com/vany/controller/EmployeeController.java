@@ -17,7 +17,8 @@ import com.vany.model.Empolyee;
 import com.vany.repositeroy.EmpolyeRepo;
 
 @RestController
-@RequestMapping("/api")
+
+@RequestMapping("/bar")
 @CrossOrigin(origins = "*")   
 public class EmployeeController {
 

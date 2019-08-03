@@ -22,8 +22,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vany.model.DAOUser;
-
 
 @Entity
 @Table(name = "MainBar")
@@ -65,6 +63,9 @@ public class Bar {
 	protected void onUpdate() {
 		updated = new Date();
 	}
+	
+	@Column(name = "userId")
+	private long userId;
 
 	
 	//Foregin Key 
@@ -79,11 +80,6 @@ public class Bar {
 	private Set<RecvStateBar> recvSateBar =new HashSet<RecvStateBar>();
 	
 	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "user_id", nullable = false)
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JsonIgnore
-	private DAOUser daoUser;
 
 	public Integer getItemId() {
 		return itemId;
@@ -173,14 +169,15 @@ public class Bar {
 		this.recvSateBar = recvSateBar;
 	}
 
-	public DAOUser getDaoUser() {
-		return daoUser;
+	public long getUserId() {
+		return userId;
 	}
 
-	public void setDaoUser(DAOUser daoUser) {
-		this.daoUser = daoUser;
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 	
 	
-	
+
+
 }

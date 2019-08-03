@@ -1,6 +1,5 @@
 package com.vany.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,14 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vany.exception.ResourceNotFoundException;
 import com.vany.model.Bar;
-import com.vany.model.DAOUser;
 import com.vany.model.OpenSateBar;
 import com.vany.repositeroy.BarRepo;
 import com.vany.repositeroy.OpenStateRepo;
-import com.vany.repositeroy.UserDao;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/bar")
 @CrossOrigin(origins = "*")
 public class OpenStateController {
 
@@ -37,31 +34,27 @@ public class OpenStateController {
 	@Autowired
 	BarRepo barRepo;
 
-	@Autowired
-	UserDao userDao;
-
-	
 	// Get All OpenSate Records
-	@GetMapping(value = "/bar/openState")
+	@GetMapping(value = "/openState")
 	public List<OpenSateBar> getAllOpenState() {
 		return openStateRepo.findAll();
 	}
 
 	// Get All OpenSate Records by Date
-	@GetMapping(value = "/bar/openState/date/{Date}")
+	@GetMapping(value = "/openState/date/{Date}")
 	public List<OpenSateBar> getAllOpenStateByDate(@PathVariable(value = "Date") String userDate) {
 		return openStateRepo.findAll();
 	}
 
 	// Get OpenSate Record By Id
-	@GetMapping(value = "/bar/openState/id/{openStateId}")
+	@GetMapping(value = "/openState/id/{openStateId}")
 	public Optional<OpenSateBar> getOpenStateFindByItemId(@PathVariable(value = "openStateId") Integer opid,
 			Pageable pageable) {
 		return openStateRepo.findById(opid);
 	}
 
 	// Save OpenSate Record
-	@PostMapping(value = "/bar/{itemId}/openState/save")
+	@PostMapping(value = "/{itemId}/openState/save")
 	public OpenSateBar saveOpenState(@PathVariable(value = "itemId") Integer bid, @RequestBody OpenSateBar openBar) {
 		Bar findBar = barRepo.findById(bid)
 				.orElseThrow(() -> new ResourceNotFoundException("Open State Item ", "id", bid));
@@ -71,7 +64,7 @@ public class OpenStateController {
 	}
 
 	// Save All OpenSate Record
-	@PostMapping(value = "/bar/{itemId}/openState/saveAll")
+	@PostMapping(value = "/{itemId}/openState/saveAll")
 	public List<OpenSateBar> saveOpenStateBatch(@PathVariable(value = "itemId") Integer bid,
 			@RequestBody List<OpenSateBar> openBar) {
 		Bar findBar = barRepo.findById(bid)
@@ -83,7 +76,7 @@ public class OpenStateController {
 	}
 
 	// Update a OpenSate Record
-	@PutMapping("/bar/{itemId}/openState/{openStateId}")
+	@PutMapping("/{itemId}/openState/{openStateId}")
 	public OpenSateBar updateOpenState(@PathVariable(value = "itemId") Integer bid,
 			@PathVariable(value = "openStateId") Integer opid, @RequestBody OpenSateBar openBar) {
 		if (!barRepo.existsById(bid)) {
@@ -96,7 +89,7 @@ public class OpenStateController {
 	}
 
 	// Delete a OpenSate Record
-	@DeleteMapping("/bar/{itemId}/openState/{openStateId}")
+	@DeleteMapping("/{itemId}/openState/{openStateId}")
 	public ResponseEntity<?> deleteOpenState(@PathVariable(value = "itemId") Integer bid,
 			@PathVariable(value = "openStateId") Integer opid) {
 		OpenSateBar findOpenState = openStateRepo.findById(opid).orElseThrow(() -> new ResourceNotFoundException(

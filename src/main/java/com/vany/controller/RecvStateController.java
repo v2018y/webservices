@@ -25,7 +25,7 @@ import com.vany.repositeroy.BarRepo;
 import com.vany.repositeroy.RevcStateRepo;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/bar")
 @CrossOrigin(origins = "*")
 public class RecvStateController {
 
@@ -37,26 +37,26 @@ public class RecvStateController {
 
 	
 	// Get All RecevState Records
-	@GetMapping(value = "/bar/receviceState")
+	@GetMapping(value = "/receviceState")
 	public List<RecvStateBar> getAllRecevState() {
 		return revcRepo.findAll();
 	}
 
 	// Get All RecevState Records by Date
-	@GetMapping(value = "/bar/receviceState/date/{Date}")
+	@GetMapping(value = "/receviceState/date/{Date}")
 	public List<RecvStateBar> getAllRecevStateByDate(@PathVariable(value = "Date") String userDate) {
 		return revcRepo.findAll();
 	}
 
 	// Get RecevState Record By Id
-	@GetMapping(value = "/bar/receviceState/id/{recvStateId}")
+	@GetMapping(value = "/receviceState/id/{recvStateId}")
 	public Optional<RecvStateBar> getRecevStateFindByItemId(@PathVariable(value = "recvStateId") Integer rpid,
 			Pageable pageable) {
 		return revcRepo.findById(rpid);
 	}
 
 	// Save RecevState Record
-	@PostMapping(value = "/bar/{itemId}/receviceState/save")
+	@PostMapping(value = "/{itemId}/receviceState/save")
 	public RecvStateBar saveOpenState(@PathVariable(value = "itemId") Integer bid, @RequestBody RecvStateBar recvStateBar) {
 		Bar findBar = barRepo.findById(bid).orElseThrow(() -> new ResourceNotFoundException("Bar Item ", "id", bid));
 		// Here We Get Current Item Qty and Plus With New RecevState Bar Qty So we Get New Qty.
@@ -68,7 +68,7 @@ public class RecvStateController {
 	}
 
 	// Save All RecevState Record
-	@PostMapping(value = "/bar/{itemId}/receviceState/saveAll")
+	@PostMapping(value = "/{itemId}/receviceState/saveAll")
 	public List<RecvStateBar> saveRecevStateBatch(@PathVariable(value = "itemId") Integer bid,
 			@RequestBody List<RecvStateBar> recvStateBar) {
 		Bar findBar = barRepo.findById(bid)
@@ -82,7 +82,7 @@ public class RecvStateController {
 	}
 
 	// Update a RecevState Record
-	@PutMapping("/bar/{itemId}/receviceState/{recvStateId}")
+	@PutMapping("/{itemId}/receviceState/{recvStateId}")
 	public RecvStateBar updateRecevState(@PathVariable(value = "itemId") Integer bid,
 			@PathVariable(value = "recvStateId") Integer rcid, @RequestBody RecvStateBar recvStateBar) {
 		if (!barRepo.existsById(bid)) {
@@ -98,7 +98,7 @@ public class RecvStateController {
 	}
 
 	// Delete a RecevState Record
-	@DeleteMapping("/bar/{itemId}/receviceState/{recvStateId}")
+	@DeleteMapping("/{itemId}/receviceState/{recvStateId}")
 	public ResponseEntity<?> deleteRecevState(@PathVariable(value = "itemId") Integer bid,
 			@PathVariable(value = "recvStateId") Integer rcid) {
 		RecvStateBar findRecvState = revcRepo.findById(rcid).orElseThrow(() -> new ResourceNotFoundException(

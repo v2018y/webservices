@@ -20,15 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vany.exception.ResourceNotFoundException;
 import com.vany.model.Bar;
-import com.vany.model.DAOUser;
 import com.vany.model.OpenSateBar;
 import com.vany.model.SalesStateBar;
 import com.vany.repositeroy.BarRepo;
 import com.vany.repositeroy.SalesStateRepo;
-import com.vany.repositeroy.UserDao;
 
 @RestController
-@RequestMapping("/api")
 @CrossOrigin(origins = "*")
 public class SalesStateController {
 
@@ -38,30 +35,28 @@ public class SalesStateController {
 	@Autowired
 	BarRepo barRepo;
 
-	@Autowired
-	UserDao userDao;
 
 	// Get All SalesState Records
-	@GetMapping(value = "/bar/salesState")
+	@GetMapping(value = "/salesState")
 	public List<SalesStateBar> getAllSalesState() {
 		return salesStateRepo.findAll();
 	}
 
 	// Get All SalesState Records By Date
-	@GetMapping(value = "/bar/salesState/date/{Date}")
+	@GetMapping(value = "/salesState/date/{Date}")
 	public List<SalesStateBar> getAllSalesStateByDate(@PathVariable(value = "Date") String userDate) {
 		return salesStateRepo.findAll();
 	}
 
 	// Get SalesState Record By Id
-	@GetMapping(value = "/bar/salesState/id/{salesStateId}")
+	@GetMapping(value = "/salesState/id/{salesStateId}")
 	public Optional<SalesStateBar> getSalesStateFindByItemId(@PathVariable(value = "salesStateId") Integer spid,
 			Pageable pageable) {
 		return salesStateRepo.findById(spid);
 	}
 
 	// Save SalesState Record
-	@PostMapping(value = "/bar/{itemId}/salesState/save")
+	@PostMapping(value = "/{itemId}/salesState/save")
 	public SalesStateBar saveSalesState(@PathVariable(value = "itemId") Integer bid, @RequestBody SalesStateBar salesBar) {
 		Bar findBar = barRepo.findById(bid) .orElseThrow(() -> new ResourceNotFoundException("Open State Item ", "id", bid));
 		
@@ -89,7 +84,7 @@ public class SalesStateController {
 	}
 
 	// Save All SalesState Record
-	@PostMapping(value = "/bar/{itemId}/salesState/saveAll")
+	@PostMapping(value = "/{itemId}/salesState/saveAll")
 	public List<SalesStateBar> saveSalesBatchState(@PathVariable(value = "itemId") Integer bid,
 			@RequestBody List<SalesStateBar> salesBar) {
 		Bar findBar = barRepo.findById(bid).orElseThrow(() -> new ResourceNotFoundException("Open State Item ", "id", bid));
@@ -103,7 +98,7 @@ public class SalesStateController {
 	}
 
 	// Update a SalesState Record
-	@PutMapping("/bar/{itemId}/salesState/{salesStateId}")
+	@PutMapping("/{itemId}/salesState/{salesStateId}")
 	public SalesStateBar updateSalesState(@PathVariable(value = "itemId") Integer bid,
 			@PathVariable(value = "salesStateId") Integer spid, @RequestBody SalesStateBar salesBar) {
 		if (!barRepo.existsById(bid)) {
@@ -116,7 +111,7 @@ public class SalesStateController {
 	}
 
 	// Delete a SalesState Record
-	@DeleteMapping("/bar/{itemId}/salesState/{salesStateId}")
+	@DeleteMapping("/{itemId}/salesState/{salesStateId}")
 	public ResponseEntity<?> deleteSalesState(@PathVariable(value = "itemId") Integer bid,
 			@PathVariable(value = "salesStateId") Integer spid) {
 		SalesStateBar findSalesState = salesStateRepo.findById(spid).orElseThrow(() -> new ResourceNotFoundException(

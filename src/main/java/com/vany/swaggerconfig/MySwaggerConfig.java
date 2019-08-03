@@ -19,7 +19,7 @@ public class MySwaggerConfig {
 	        return new Docket(DocumentationType.SWAGGER_2)
 	                .select()
 	                .apis(RequestHandlerSelectors.basePackage("com.vany.controller"))
-	                .paths(PathSelectors.regex("/api.*"))
+	                .paths(PathSelectors.regex("/bar.*"))
 	                .build()
 	                .apiInfo(apiInfo());
 	    }

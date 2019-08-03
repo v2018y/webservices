@@ -18,47 +18,42 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vany.exception.ResourceNotFoundException;
 import com.vany.model.Bar;
-import com.vany.model.DAOUser;
 import com.vany.repositeroy.BarRepo;
-import com.vany.repositeroy.UserDao;
 import com.vany.services.UserService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/bar")
 @CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600,allowCredentials= "false")
 public class BarController {
 
 	@Autowired
 	BarRepo barRepo;
 	
-	@Autowired
-	UserDao userDao;
 	
 	@Autowired
 	UserService userService;
 
 	// Get All Item
-	@GetMapping(value = "/bar")
+	@GetMapping(value = "/")
 	public List<Bar> getAllItem() {
-		userService.getUserId();
-		return barRepo.findAll();
+		return barRepo.findByuserId(userService.getUserId());
 	}
 
 	// Get Item By Id
-	@GetMapping(value = "/bar/{id}")
+	@GetMapping(value = "/{id}")
 	public Bar itemFindById(@PathVariable Integer id) {
 		return barRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Bar Controller", "id", id));
 	}
 
 	// Save Item
-	@PostMapping(value = "/bar/save")
+	@PostMapping(value = "/save")
 	public Bar saveItem(@RequestBody Bar bar) {		
 //		bar.setDaoUser(userService.getUserId());
 		return barRepo.saveAndFlush(bar);
 	}
 
 	// Update a Employee
-	@PutMapping("/bar/{id}")
+	@PutMapping("/{id}")
 	public Bar updateItem(@PathVariable Integer id, @RequestBody Bar bar) {
 
 		Bar findBar = barRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Bar Controller ", "id", id));
@@ -72,7 +67,7 @@ public class BarController {
 	}
 
 	// Delete a Employee
-	@DeleteMapping("/bar/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteItem(@PathVariable Integer id) {
 		Bar findBar = barRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Bar Controller", "id", id));
 		barRepo.delete(findBar);
@@ -80,7 +75,7 @@ public class BarController {
 	}
 
 	
-	@RequestMapping(value = "/bar/**", method = RequestMethod.OPTIONS)
+	@RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
 	public ResponseEntity<?> handle() {
 		return new ResponseEntity(HttpStatus.OK);
 	}
