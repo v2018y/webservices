@@ -47,17 +47,15 @@ public class BarController {
 
 	// Save Item
 	@PostMapping(value = "/save")
-	public Bar saveItem(@RequestBody Bar bar) {		
-//		bar.setDaoUser(userService.getUserId());
+	public Bar saveItem(@RequestBody Bar bar) {				
+		 bar.setUserId(userService.getUserId());
 		return barRepo.saveAndFlush(bar);
 	}
 
 	// Update a Employee
 	@PutMapping("/{id}")
 	public Bar updateItem(@PathVariable Integer id, @RequestBody Bar bar) {
-
 		Bar findBar = barRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Bar Controller ", "id", id));
-
 		findBar.setItemName(bar.getItemName());
 		findBar.setItemPrice(bar.getItemPrice());
 		findBar.setItemQty(bar.getItemQty());
